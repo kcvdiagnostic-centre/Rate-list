@@ -4,1056 +4,1335 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KCV Diagnostic Centre | Gandhinagar, Jammu</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-base: #f3f6fb;
-            --bg-white: #ffffff;
-            --bg-card: #ffffff;
-            --bg-muted: #edf1f7;
-            --accent: #3d5afe;
-            --accent-light: #7c8fff;
-            --accent-subtle: rgba(61, 90, 254, 0.08);
-            --accent-border: rgba(61, 90, 254, 0.15);
-            --text-primary: #1a2332;
-            --text-secondary: #5a6a80;
-            --text-muted: #8e9bb0;
-            --border-light: rgba(0, 0, 0, 0.06);
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
-            --shadow-md: 0 4px 16px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04);
-            --shadow-lg: 0 12px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
-            --shadow-xl: 0 24px 60px rgba(0,0,0,0.1), 0 8px 20px rgba(0,0,0,0.05);
-            --teal: #0d9488;
-            --teal-light: rgba(13, 148, 136, 0.1);
-            --green: #10b981;
-            --green-light: rgba(16, 185, 129, 0.1);
+            --ink: #0d1117;
+            --ink-2: #1a2232;
+            --ink-3: #243044;
+            --surface: #f7f5f0;
+            --surface-2: #eeeae3;
+            --surface-3: #e5e0d8;
+            --gold: #c8a96e;
+            --gold-light: #e2c99a;
+            --gold-dark: #a07b3e;
+            --gold-subtle: rgba(200, 169, 110, 0.10);
+            --gold-glow: rgba(200, 169, 110, 0.18);
+            --teal: #1d7a74;
+            --teal-light: #2ca89f;
+            --teal-subtle: rgba(29, 122, 116, 0.10);
+            --dust: rgba(200, 169, 110, 0.06);
+            --text: #0d1117;
+            --text-2: #384558;
+            --text-3: #7a8899;
+            --border: rgba(13, 17, 23, 0.09);
+            --border-gold: rgba(200, 169, 110, 0.22);
+            --r: 16px;
+            --r-lg: 24px;
+            --r-xl: 32px;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-
         body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--bg-base);
-            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            background: var(--surface);
+            color: var(--text);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        .font-display { font-family: 'Playfair Display', serif; }
-
-        body::before {
-            content: '';
+        /* ── DYNAMIC CANVAS BACKGROUND ── */
+        #bg-canvas {
             position: fixed;
             inset: 0;
-            background:
-                radial-gradient(ellipse 70% 50% at 10% 20%, rgba(61, 90, 254, 0.04) 0%, transparent 60%),
-                radial-gradient(ellipse 50% 40% at 90% 70%, rgba(13, 148, 136, 0.03) 0%, transparent 50%);
-            pointer-events: none;
             z-index: 0;
-        }
-
-        body > * { position: relative; z-index: 1; }
-
-        /* Header */
-        .header-glass {
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
-            background: rgba(243, 246, 251, 0.85);
-            border-bottom: 1px solid var(--border-light);
-            transition: box-shadow 0.3s ease;
-        }
-        .header-glass.scrolled {
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-        }
-
-        /* Cards */
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-light);
-            border-radius: 20px;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .card-hover:hover {
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-4px);
-            border-color: var(--accent-border);
-        }
-
-        /* Hero Image */
-        .hero-image-wrap {
-            position: relative;
-            border-radius: 28px;
-            overflow: hidden;
-            box-shadow: var(--shadow-xl);
-        }
-        .hero-image-wrap::before {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            border-radius: 30px;
-            background: linear-gradient(135deg, var(--accent), #7c4dff, var(--teal), var(--accent));
-            background-size: 300% 300%;
-            animation: borderGlow 6s ease infinite;
-            z-index: -1;
-            opacity: 0.5;
-        }
-        @keyframes borderGlow {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-        .hero-image-wrap::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 40%;
-            background: linear-gradient(to top, rgba(26, 35, 50, 0.55), transparent);
             pointer-events: none;
         }
-        .hero-image-wrap img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform 6s ease;
+
+        /* ── CONTENT LAYER ──
+           Wraps all scrollable content so it sits above the canvas.
+           Fixed elements (header, mobile nav, wa-float) stay OUTSIDE
+           this wrapper so their position:fixed is never overridden. */
+        .page-content {
+            position: relative;
+            z-index: 1;
         }
-        .hero-image-wrap:hover img {
-            transform: scale(1.04);
+
+        /* ── TYPOGRAPHY ── */
+        .serif { font-family: 'Cormorant Garamond', serif; }
+
+        /* ── HEADER ── */
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 0 clamp(16px, 4vw, 48px);
+            transition: background 0.4s, box-shadow 0.4s;
         }
-        .hero-image-badge {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            z-index: 2;
-            background: rgba(255,255,255,0.93);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 16px;
-            padding: 12px 18px;
+        header.scrolled {
+            background: rgba(247, 245, 240, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 1px 0 var(--border), 0 4px 24px rgba(13,17,23,0.06);
+        }
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             align-items: center;
-            gap: 12px;
-            box-shadow: 0 8px 28px rgba(0,0,0,0.14);
-            text-decoration: none;
-            transition: all 0.3s ease;
+            justify-content: space-between;
+            height: 72px;
         }
-        .hero-image-badge:hover {
-            background: rgba(255,255,255,0.98);
-            transform: translateY(-2px);
-            box-shadow: 0 12px 36px rgba(0,0,0,0.18);
-        }
-
-        /* Floating Orbs */
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(60px);
-            opacity: 0.12;
-            pointer-events: none;
-            animation: orbFloat 8s ease-in-out infinite;
-        }
-        .orb-1 {
-            width: 200px; height: 200px;
-            background: var(--accent);
-            top: -60px; right: -40px;
-            animation-delay: 0s;
-        }
-        .orb-2 {
-            width: 160px; height: 160px;
-            background: var(--teal);
-            bottom: -40px; left: -30px;
-            animation-delay: -3s;
-        }
-        @keyframes orbFloat {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(15px, -20px) scale(1.05); }
-            66% { transform: translate(-10px, 15px) scale(0.95); }
-        }
-
-        /* Search */
-        .search-wrap {
-            position: relative;
-            background: var(--bg-white);
-            border: 2px solid var(--border-light);
-            border-radius: 18px;
-            box-shadow: var(--shadow-md);
-            transition: all 0.3s ease;
-        }
-        .search-wrap:focus-within {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 4px var(--accent-subtle), var(--shadow-lg);
-        }
-        .search-input {
-            background: transparent;
-            border: none;
-            transition: all 0.3s ease;
-            width: 100%;
-            padding: 18px 54px 18px 54px;
-            font-size: 16px;
-            color: var(--text-primary);
-            font-family: 'DM Sans', sans-serif;
-        }
-        .search-input::placeholder { color: var(--text-muted); }
-        .search-input:focus { outline: none; }
-        .search-icon {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--accent);
-            pointer-events: none;
-        }
-        .clear-btn {
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: var(--bg-muted);
-            border: none;
-            border-radius: 50%;
-            width: 34px;
-            height: 34px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: var(--text-secondary);
-            transition: all 0.2s;
-            opacity: 0;
-            visibility: hidden;
-        }
-        .clear-btn.visible { opacity: 1; visibility: visible; }
-        .clear-btn:hover { background: #dde2ea; color: var(--text-primary); }
-
-        /* Filter Buttons */
-        .filter-scroll {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            padding-bottom: 4px;
-        }
-        .filter-scroll::-webkit-scrollbar { display: none; }
-        .filter-btn {
-            padding: 10px 22px;
-            border-radius: 100px;
-            border: 1.5px solid var(--border-light);
-            background: var(--bg-white);
-            color: var(--text-secondary);
-            font-size: 13.5px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            flex-shrink: 0;
-            font-family: 'DM Sans', sans-serif;
-            box-shadow: var(--shadow-sm);
+        .logo-wrap { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo-mark {
+            width: 42px; height: 42px;
+            border-radius: 12px;
+            background: var(--ink-2);
+            display: flex; align-items: center; justify-content: center;
             position: relative;
             overflow: hidden;
         }
-        .filter-btn::before {
+        .logo-mark::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: var(--accent);
-            border-radius: inherit;
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s ease;
-            z-index: 0;
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold-light));
+            opacity: 0.18;
         }
-        .filter-btn span { position: relative; z-index: 1; }
-        .filter-btn:hover { border-color: var(--accent-border); color: var(--text-primary); }
-        .filter-btn.active {
-            background: var(--accent);
-            border-color: var(--accent);
-            color: white;
-            box-shadow: 0 4px 16px rgba(61, 90, 254, 0.3);
-        }
-        .filter-btn.active::before { transform: scaleX(1); }
-
-        /* Rate Table */
-        .rate-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-light);
-            border-radius: 22px;
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
-        }
-        .rate-row {
-            transition: all 0.25s ease;
-            border-bottom: 1px solid var(--border-light);
-            position: relative;
-        }
-        .rate-row:hover { background: var(--accent-subtle); }
-        .rate-row:last-child { border-bottom: none; }
-        .rate-row::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: var(--accent);
-            border-radius: 0 3px 3px 0;
-            transform: scaleY(0);
-            transition: transform 0.2s ease;
-        }
-        .rate-row:hover::after { transform: scaleY(1); }
-
-        .price-tag {
-            background: var(--teal-light);
-            color: var(--teal);
-            border-radius: 10px;
-            padding: 5px 14px;
+        .logo-mark svg { width: 20px; height: 20px; color: var(--gold-light); position: relative; z-index: 1; }
+        .logo-text { line-height: 1; }
+        .logo-text h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
             font-weight: 600;
-            font-size: 0.875rem;
+            color: var(--ink);
             letter-spacing: -0.01em;
         }
-
-        .no-results { text-align: center; padding: 56px 16px; color: var(--text-muted); }
-
-        /* Fade Animations */
-        .fade-up {
-            opacity: 0;
-            transform: translateY(28px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        .logo-text span {
+            font-size: 10px;
+            font-weight: 500;
+            color: var(--gold-dark);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
         }
-        .fade-up.visible { opacity: 1; transform: translateY(0); }
+        nav { display: flex; align-items: center; gap: 36px; }
+        nav a {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-2);
+            text-decoration: none;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            transition: color 0.2s;
+            position: relative;
+        }
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0; right: 0;
+            height: 1px;
+            background: var(--gold);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s;
+        }
+        nav a:hover { color: var(--ink); }
+        nav a:hover::after { transform: scaleX(1); }
+        .btn-call {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 22px;
+            background: var(--ink-2);
+            color: var(--gold-light);
+            border: 1px solid var(--ink-3);
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            letter-spacing: 0.03em;
+            transition: all 0.25s;
+        }
+        .btn-call:hover {
+            background: var(--ink);
+            color: var(--gold-light);
+            box-shadow: 0 4px 20px rgba(13,17,23,0.18);
+            transform: translateY(-1px);
+        }
+        .hamburger {
+            display: none;
+            width: 40px; height: 40px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: transparent;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-2);
+            transition: all 0.2s;
+        }
+        .hamburger:hover { background: var(--surface-2); color: var(--ink); }
 
-        .stagger-item { opacity: 0; transform: translateY(14px); }
-        .stagger-item.visible { animation: staggerIn 0.4s ease forwards; }
-        @keyframes staggerIn { to { opacity: 1; transform: translateY(0); } }
+        /* ── HERO ── */
+        .hero {
+            padding: 108px clamp(16px, 4vw, 48px) 60px;
+        }
+        .hero-inner { max-width: 1200px; margin: 0 auto; }
 
-        /* Doctor Badge */
-        .doctor-badge {
+        .hero-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 16px;
+            border: 1px solid var(--border-gold);
+            border-radius: 100px;
+            background: var(--gold-subtle);
+            font-size: 11.5px;
+            font-weight: 500;
+            color: var(--gold-dark);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+        }
+        .hero-pill-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--teal-light);
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%,100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.7); }
+        }
+
+        .hero-image-frame {
+            position: relative;
+            border-radius: var(--r-xl);
+            overflow: hidden;
+            margin-bottom: 56px;
+            aspect-ratio: 16/7;
+            background: linear-gradient(135deg, var(--ink-2) 0%, #1a3a4a 40%, var(--ink-3) 100%);
+        }
+        .hero-image-frame::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 30%, rgba(13,17,23,0.55) 100%);
+            z-index: 1;
+        }
+        .hero-image-frame::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: var(--r-xl);
+            border: 1px solid rgba(200,169,110,0.25);
+            z-index: 2;
+            pointer-events: none;
+        }
+        .hero-image-frame img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 8s ease;
+        }
+        .hero-image-frame:hover img { transform: scale(1.03); }
+        .hero-img-badge {
+            position: absolute;
+            bottom: 20px; left: 20px;
+            z-index: 3;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            background: rgba(13,17,23,0.72);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(200,169,110,0.25);
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .hero-img-badge:hover {
+            background: rgba(13,17,23,0.88);
+            transform: translateY(-2px);
+        }
+        .hero-img-badge svg { color: var(--gold); width: 16px; height: 16px; }
+        .hero-img-badge p { font-size: 12px; font-weight: 500; color: #fff; line-height: 1.3; }
+        .hero-img-badge span { font-size: 10.5px; color: rgba(255,255,255,0.55); }
+
+        .hero-content { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+        .hero-heading {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(42px, 5.5vw, 72px);
+            font-weight: 500;
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            color: var(--ink);
+            margin-bottom: 20px;
+        }
+        .hero-heading em {
+            font-style: italic;
+            color: var(--gold-dark);
+        }
+        .hero-desc {
+            font-size: 15px;
+            line-height: 1.75;
+            color: var(--text-2);
+            max-width: 420px;
+            margin-bottom: 32px;
+        }
+        .doctor-card {
             display: inline-flex;
             align-items: center;
             gap: 14px;
-            padding: 14px 20px;
-            border-radius: 18px;
-            background: var(--bg-white);
-            border: 1px solid var(--border-light);
-            box-shadow: var(--shadow-md);
-            transition: all 0.3s ease;
+            padding: 14px 18px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            box-shadow: 0 2px 12px rgba(13,17,23,0.05);
+            margin-bottom: 32px;
+            transition: all 0.3s;
         }
-        .doctor-badge:hover {
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-1px);
+        .doctor-card:hover {
+            box-shadow: 0 6px 24px rgba(13,17,23,0.09);
+            transform: translateY(-2px);
         }
         .doctor-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, var(--accent), #7c4dff);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 46px; height: 46px;
+            border-radius: 12px;
+            background: var(--ink-2);
+            display: flex; align-items: center; justify-content: center;
             flex-shrink: 0;
-            box-shadow: 0 4px 12px rgba(61, 90, 254, 0.3);
-        }
-
-        /* Stat Card */
-        .stat-card {
-            background: var(--bg-white);
-            border: 1px solid var(--border-light);
-            border-radius: 20px;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            text-align: center;
-            padding: 28px 16px;
             position: relative;
             overflow: hidden;
+        }
+        .doctor-avatar::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold-light));
+            opacity: 0.22;
+        }
+        .doctor-avatar svg { width: 20px; height: 20px; color: var(--gold-light); position: relative; z-index: 1; }
+        .doctor-card p { font-size: 13.5px; font-weight: 600; color: var(--ink); line-height: 1.3; }
+        .doctor-card span { font-size: 11.5px; color: var(--text-3); }
+        .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 26px;
+            background: var(--ink-2);
+            color: var(--gold-light);
+            border-radius: 12px;
+            font-size: 13.5px;
+            font-weight: 500;
+            text-decoration: none;
+            letter-spacing: 0.02em;
+            transition: all 0.25s;
+            border: 1px solid var(--ink-3);
+        }
+        .btn-primary:hover {
+            background: var(--ink);
+            box-shadow: 0 6px 24px rgba(13,17,23,0.18);
+            transform: translateY(-2px);
+        }
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 26px;
+            background: transparent;
+            color: var(--text-2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 13.5px;
+            font-weight: 500;
+            text-decoration: none;
+            letter-spacing: 0.02em;
+            transition: all 0.25s;
+        }
+        .btn-outline:hover {
+            border-color: var(--border-gold);
+            color: var(--ink);
+            background: var(--gold-subtle);
+            transform: translateY(-2px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        .stat-card {
+            padding: 24px 20px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.35s;
         }
         .stat-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 50%;
+            top: 0; left: 50%;
             transform: translateX(-50%);
-            width: 60%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent), #7c4dff);
-            border-radius: 0 0 3px 3px;
+            width: 40px; height: 2px;
+            background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+            border-radius: 0 0 2px 2px;
             opacity: 0;
             transition: opacity 0.3s;
         }
         .stat-card:hover::before { opacity: 1; }
         .stat-card:hover {
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 8px 32px rgba(13,17,23,0.08);
             transform: translateY(-3px);
         }
-        .stat-number {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.2rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--accent), #7c4dff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1.2;
-        }
-
-        /* Primary Button */
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 14px 28px;
-            background: var(--accent);
-            color: white;
-            border-radius: 14px;
+        .stat-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 44px;
             font-weight: 600;
-            font-size: 15px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 16px rgba(61, 90, 254, 0.25);
-            font-family: 'DM Sans', sans-serif;
-            border: none;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
+            line-height: 1;
+            letter-spacing: -0.02em;
+            color: var(--ink);
+            margin-bottom: 6px;
         }
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .btn-primary:hover::before { opacity: 1; }
-        .btn-primary:hover {
-            background: #2e4ae0;
-            box-shadow: 0 6px 24px rgba(61, 90, 254, 0.35);
-            transform: translateY(-2px);
-        }
-        .btn-primary:active { transform: translateY(0); }
-
-        .btn-secondary {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 14px 28px;
-            background: var(--bg-white);
-            color: var(--text-primary);
-            border-radius: 14px;
-            font-weight: 600;
-            font-size: 15px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border: 1.5px solid var(--border-light);
-            box-shadow: var(--shadow-sm);
-            font-family: 'DM Sans', sans-serif;
-        }
-        .btn-secondary:hover {
-            border-color: var(--accent-border);
-            box-shadow: var(--shadow-md);
-            background: var(--accent-subtle);
-            transform: translateY(-2px);
-        }
-
-        /* Service Card Icon */
-        .service-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 16px;
-            background: var(--accent-subtle);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-        .card-hover:hover .service-icon {
-            background: var(--accent);
-            box-shadow: 0 4px 16px rgba(61, 90, 254, 0.3);
-            transform: scale(1.08);
-        }
-        .card-hover:hover .service-icon svg { color: white; }
-
-        /* Contact Card */
-        .contact-info-box {
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
-            padding: 20px;
-            border-radius: 16px;
-            background: var(--bg-muted);
-            border: 1px solid var(--border-light);
-            transition: all 0.3s ease;
-        }
-        .contact-info-box:hover {
-            background: var(--accent-subtle);
-            border-color: var(--accent-border);
-        }
-
-        /* Map Embed */
-        .map-wrapper {
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--border-light);
-            position: relative;
-        }
-        .map-wrapper::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 20px;
-            border: 2px solid var(--accent-border);
-            z-index: 1;
-            pointer-events: none;
-        }
-        .map-wrapper iframe {
-            width: 100%;
-            height: 280px;
-            border: none;
-            display: block;
-        }
-
-        /* Mobile Nav */
-        .mobile-nav-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(26, 35, 50, 0.4);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            z-index: 60;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-        .mobile-nav-overlay.open { opacity: 1; visibility: visible; }
-
-        .mobile-nav-drawer {
-            position: fixed;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            width: min(300px, 82vw);
-            background: var(--bg-white);
-            border-left: 1px solid var(--border-light);
-            z-index: 61;
-            transform: translateX(100%);
-            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 28px;
-            display: flex;
-            flex-direction: column;
-            box-shadow: -8px 0 30px rgba(0,0,0,0.08);
-        }
-        .mobile-nav-drawer.open { transform: translateX(0); }
-
-        .mobile-nav-link {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 14px 16px;
-            border-radius: 14px;
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 15px;
+        .stat-label {
+            font-size: 11.5px;
             font-weight: 500;
-            transition: all 0.2s;
-            min-height: 50px;
+            color: var(--text-3);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
         }
-        .mobile-nav-link:hover, .mobile-nav-link:active {
-            background: var(--accent-subtle);
-            color: var(--text-primary);
-        }
-
-        .hamburger-btn {
+        .star-row {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            border: 1.5px solid var(--border-light);
-            background: var(--bg-white);
-            cursor: pointer;
-            color: var(--text-secondary);
-            transition: all 0.2s;
+            gap: 3px;
+            margin-bottom: 4px;
         }
-        .hamburger-btn:hover { background: var(--accent-subtle); color: var(--text-primary); }
+        .star-row svg { width: 14px; height: 14px; color: var(--gold); }
 
-        /* WhatsApp Float */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            z-index: 50;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: #25D366;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
-            transition: all 0.3s ease;
-            text-decoration: none;
+        /* ── MARQUEE ── */
+        .marquee-wrap {
+            padding: 24px 0;
+            overflow: hidden;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            background: white;
         }
-        .whatsapp-float:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 28px rgba(37, 211, 102, 0.5);
-        }
-        .whatsapp-float::before {
-            content: '';
-            position: absolute;
-            inset: -6px;
-            border-radius: 50%;
-            background: rgba(37, 211, 102, 0.2);
-            animation: whatsappPulse 2s ease-in-out infinite;
-        }
-        @keyframes whatsappPulse {
-            0%, 100% { transform: scale(1); opacity: 0.6; }
-            50% { transform: scale(1.2); opacity: 0; }
-        }
-
-        /* Divider */
-        .section-divider {
-            width: 48px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent), #7c4dff);
-            border-radius: 2px;
-            margin: 0 auto 20px;
-        }
-
-        /* Rating Stars */
-        .stars { display: inline-flex; gap: 2px; }
-        .stars svg { color: #f59e0b; }
-
-        /* Marquee */
         .marquee-track {
             display: flex;
-            animation: marqueeScroll 30s linear infinite;
-            gap: 2rem;
+            gap: 0;
+            animation: marquee-scroll 32s linear infinite;
+            width: max-content;
         }
-        @keyframes marqueeScroll {
+        @keyframes marquee-scroll {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
         }
         .marquee-item {
-            flex-shrink: 0;
-            padding: 10px 24px;
-            border-radius: 100px;
-            background: var(--bg-white);
-            border: 1px solid var(--border-light);
-            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 28px;
+            font-size: 12px;
             font-weight: 500;
-            color: var(--text-secondary);
+            color: var(--text-3);
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
             white-space: nowrap;
+            border-right: 1px solid var(--border);
+        }
+        .marquee-diamond {
+            width: 5px; height: 5px;
+            background: var(--gold);
+            transform: rotate(45deg);
+            flex-shrink: 0;
+        }
+
+        /* ── SECTION LAYOUT ── */
+        .section { padding: 80px clamp(16px, 4vw, 48px); }
+        .section-inner { max-width: 1200px; margin: 0 auto; }
+        .section-header { margin-bottom: 52px; }
+        .section-eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .eyebrow-line {
+            width: 32px; height: 1px;
+            background: var(--gold);
+        }
+        .eyebrow-text {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--gold-dark);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(32px, 4vw, 52px);
+            font-weight: 500;
+            line-height: 1.1;
+            letter-spacing: -0.015em;
+            color: var(--ink);
+        }
+        .section-title em { font-style: italic; color: var(--gold-dark); }
+        .section-sub {
+            font-size: 14px;
+            color: var(--text-3);
+            margin-top: 12px;
+            max-width: 480px;
+        }
+
+        /* ── RATE LIST ── */
+        #rates { background: transparent; }
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            box-shadow: 0 2px 12px rgba(13,17,23,0.05);
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+        .search-bar:focus-within {
+            border-color: var(--border-gold);
+            box-shadow: 0 0 0 4px var(--gold-subtle), 0 2px 12px rgba(13,17,23,0.05);
+        }
+        .search-icon-wrap {
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .search-icon-wrap svg { width: 18px; height: 18px; color: var(--gold-dark); }
+        .search-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 16px 0;
+            font-size: 15px;
+            font-family: 'Outfit', sans-serif;
+            color: var(--text);
+            outline: none;
+            min-width: 0;
+        }
+        .search-input::placeholder { color: var(--text-3); }
+        .clear-btn {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 32px; height: 32px;
+            margin-right: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--surface-2);
+            cursor: pointer;
+            color: var(--text-3);
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        .clear-btn:hover { background: var(--surface-3); color: var(--ink); }
+        .clear-btn.visible { display: flex; }
+        .clear-btn svg { width: 14px; height: 14px; }
+
+        .filters {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+        .filter-btn {
+            padding: 8px 18px;
+            border-radius: 100px;
+            border: 1px solid var(--border);
+            background: white;
+            font-family: 'Outfit', sans-serif;
+            font-size: 12.5px;
+            font-weight: 500;
+            color: var(--text-2);
+            cursor: pointer;
+            letter-spacing: 0.02em;
+            transition: all 0.25s;
+        }
+        .filter-btn:hover { border-color: var(--border-gold); color: var(--ink); }
+        .filter-btn.active {
+            background: var(--ink-2);
+            border-color: var(--ink-2);
+            color: var(--gold-light);
+        }
+        .results-count {
+            font-size: 12px;
+            color: var(--text-3);
+            margin-bottom: 12px;
+            min-height: 18px;
+        }
+
+        .rate-table {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            box-shadow: 0 2px 20px rgba(13,17,23,0.05);
+        }
+        .rate-header {
+            display: grid;
+            grid-template-columns: 48px 1fr 140px;
+            gap: 16px;
+            padding: 14px 24px;
+            background: var(--ink-2);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .rate-header span {
+            font-size: 10.5px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.45);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .rate-header span:last-child { text-align: right; }
+        .rate-row {
+            display: grid;
+            grid-template-columns: 48px 1fr 140px;
+            gap: 16px;
+            padding: 15px 24px;
+            border-bottom: 1px solid var(--border);
+            align-items: center;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .rate-row:last-child { border-bottom: none; }
+        .rate-row::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 2px;
+            background: var(--gold);
+            transform: scaleY(0);
+            transition: transform 0.2s;
+        }
+        .rate-row:hover { background: rgba(200,169,110,0.04); }
+        .rate-row:hover::before { transform: scaleY(1); }
+        .rate-num {
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--gold-dark);
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 0.04em;
+        }
+        .rate-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--ink);
+            line-height: 1.4;
+            min-width: 0;
+        }
+        .rate-price {
+            text-align: right;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--teal);
+            background: var(--teal-subtle);
+            padding: 5px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(29,122,116,0.12);
+            white-space: nowrap;
+            justify-self: end;
+        }
+        .no-results {
+            text-align: center;
+            padding: 60px 24px;
+        }
+        .no-results svg { width: 48px; height: 48px; color: var(--text-3); opacity: 0.4; margin-bottom: 12px; }
+        .no-results p { font-size: 15px; color: var(--text-2); }
+        .no-results small { font-size: 12px; color: var(--text-3); }
+        .rate-disclaimer {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-3);
+            margin-top: 16px;
+        }
+
+        /* ── WHY CHOOSE US ── */
+        #services { background: var(--ink-2); }
+        #services .section-title { color: white; }
+        #services .eyebrow-text { color: var(--gold); }
+        #services .section-sub { color: rgba(255,255,255,0.45); }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        .service-card {
+            padding: 30px 26px;
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: var(--r-lg);
+            background: rgba(255,255,255,0.04);
+            transition: all 0.35s;
+            position: relative;
+            overflow: hidden;
+        }
+        .service-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--r-lg);
+            border: 1px solid rgba(200,169,110,0);
+            transition: border-color 0.35s;
+            pointer-events: none;
+        }
+        .service-card:hover { background: rgba(255,255,255,0.07); }
+        .service-card:hover::after { border-color: rgba(200,169,110,0.3); }
+        .service-icon {
+            width: 48px; height: 48px;
+            border-radius: 12px;
+            background: rgba(200,169,110,0.1);
+            border: 1px solid rgba(200,169,110,0.2);
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+        .service-icon svg { width: 22px; height: 22px; color: var(--gold); }
+        .service-card:hover .service-icon { background: rgba(200,169,110,0.18); }
+        .service-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 21px;
+            font-weight: 500;
+            color: white;
+            margin-bottom: 10px;
+            line-height: 1.25;
+        }
+        .service-card p {
+            font-size: 13.5px;
+            line-height: 1.7;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* ── CONTACT ── */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: start;
+        }
+        .map-frame {
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 24px rgba(13,17,23,0.07);
+        }
+        .map-frame iframe {
+            width: 100%; height: 300px;
+            border: none; display: block;
+        }
+        .contact-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--r-lg);
+            padding: 36px;
+            box-shadow: 0 2px 20px rgba(13,17,23,0.05);
+        }
+        .contact-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 34px;
+            font-weight: 500;
+            color: var(--ink);
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
+            line-height: 1.1;
+        }
+        .contact-card h3 em { font-style: italic; color: var(--gold-dark); }
+        .contact-card p {
+            font-size: 14px;
+            color: var(--text-2);
+            margin-bottom: 28px;
+            line-height: 1.6;
+        }
+        .contact-btns {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 28px;
+        }
+        .btn-whatsapp {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 22px;
+            background: transparent;
+            color: #128C7E;
+            border: 1px solid rgba(18,140,126,0.28);
+            border-radius: 11px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13.5px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.25s;
+        }
+        .btn-whatsapp:hover {
+            background: rgba(18,140,126,0.06);
+            border-color: rgba(18,140,126,0.5);
+            transform: translateY(-2px);
+        }
+        .info-rows { display: flex; flex-direction: column; gap: 16px; }
+        .info-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 16px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            transition: all 0.25s;
+        }
+        .info-row:hover { border-color: var(--border-gold); background: var(--gold-subtle); }
+        .info-icon {
+            width: 38px; height: 38px;
+            border-radius: 10px;
+            background: var(--gold-subtle);
+            border: 1px solid var(--border-gold);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .info-icon svg { width: 16px; height: 16px; color: var(--gold-dark); }
+        .info-label {
+            font-size: 10.5px;
+            font-weight: 600;
+            color: var(--text-3);
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+        .info-value {
+            font-size: 13.5px;
+            font-weight: 500;
+            color: var(--ink);
+            text-decoration: none;
+        }
+        a.info-value { color: var(--teal); }
+        a.info-value:hover { color: var(--teal-light); }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--ink);
+            padding: 28px clamp(16px, 4vw, 48px);
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+        footer p { font-size: 12.5px; color: rgba(255,255,255,0.3); }
+        footer .footer-brand {
             display: flex;
             align-items: center;
             gap: 8px;
-            box-shadow: var(--shadow-sm);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 16px;
+            color: rgba(255,255,255,0.5);
         }
-        .marquee-dot {
-            width: 6px;
-            height: 6px;
+        footer .footer-brand span {
+            width: 6px; height: 6px;
+            background: var(--gold);
             border-radius: 50%;
-            background: var(--accent);
-            flex-shrink: 0;
+        }
+
+        /* ── WHATSAPP FLOAT ── */
+        .wa-float {
+            position: fixed;
+            bottom: 24px; right: 24px;
+            z-index: 200;
+            width: 54px; height: 54px;
+            border-radius: 50%;
+            background: #25D366;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 20px rgba(37,211,102,0.38);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .wa-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 28px rgba(37,211,102,0.5);
+        }
+        .wa-float::before {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            background: rgba(37,211,102,0.2);
+            animation: wa-pulse 2.2s ease-in-out infinite;
+        }
+        @keyframes wa-pulse {
+            0%,100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.25); opacity: 0; }
+        }
+        .wa-float svg { width: 26px; height: 26px; fill: white; position: relative; z-index: 1; }
+
+        /* ── MOBILE NAV ── */
+        .mob-overlay {
+            position: fixed; inset: 0;
+            background: rgba(13,17,23,0.5);
+            backdrop-filter: blur(6px);
+            z-index: 300;
+            opacity: 0; visibility: hidden;
+            transition: all 0.3s;
+        }
+        .mob-overlay.open { opacity: 1; visibility: visible; }
+        .mob-drawer {
+            position: fixed;
+            top: 0; right: 0; bottom: 0;
+            width: min(280px, 85vw);
+            background: var(--ink-2);
+            z-index: 301;
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+            padding: 28px 24px;
+            display: flex; flex-direction: column;
+        }
+        .mob-drawer.open { transform: translateX(0); }
+        .mob-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 36px;
+        }
+        .mob-close {
+            width: 36px; height: 36px;
+            border-radius: 9px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: transparent;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: rgba(255,255,255,0.5);
+            transition: all 0.2s;
+        }
+        .mob-close:hover { background: rgba(255,255,255,0.08); color: white; }
+        .mob-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+        .mob-link {
+            display: flex; align-items: center; gap: 12px;
+            padding: 13px 14px;
+            border-radius: 11px;
+            color: rgba(255,255,255,0.55);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            transition: all 0.2s;
+        }
+        .mob-link:hover { background: rgba(255,255,255,0.07); color: white; }
+        .mob-link svg { width: 17px; height: 17px; color: var(--gold); flex-shrink: 0; }
+
+        /* ── ANIMATIONS ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            nav, .btn-call { display: none !important; }
+            .hamburger { display: flex !important; }
+            .hero-content { grid-template-columns: 1fr; gap: 36px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .services-grid { grid-template-columns: 1fr 1fr; }
+            .contact-grid { grid-template-columns: 1fr; gap: 28px; }
+        }
+        @media (max-width: 600px) {
+            .hero-image-frame { aspect-ratio: 4/3; }
+            .services-grid { grid-template-columns: 1fr; }
+            .rate-header, .rate-row {
+                grid-template-columns: 32px 1fr;
+                padding: 12px 16px;
+                gap: 10px;
+            }
+            .rate-header span:last-child { display: none; }
+            .rate-price {
+                grid-column: 1 / -1;
+                justify-self: start;
+                text-align: left;
+            }
+            .stat-num { font-size: 36px; }
+            .footer-inner { flex-direction: column; text-align: center; }
         }
 
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
                 animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
             }
-        }
-
-        @media (max-width: 640px) {
-            .search-input { font-size: 16px; padding: 15px 48px 15px 48px; border-radius: 14px; }
-            .search-icon { left: 16px; }
-            .clear-btn { right: 12px; width: 30px; height: 30px; }
-            .price-tag { font-size: 0.8rem; padding: 4px 10px; }
-            .rate-row { padding-left: 14px; padding-right: 14px; }
-            .doctor-badge { padding: 10px 14px; gap: 10px; }
-            .doctor-avatar { width: 40px; height: 40px; border-radius: 12px; }
-            .hero-image-badge { bottom: 12px; left: 12px; padding: 8px 14px; gap: 8px; border-radius: 12px; }
-            .btn-primary, .btn-secondary { padding: 12px 22px; font-size: 14px; border-radius: 12px; }
-            .whatsapp-float { bottom: 18px; right: 18px; width: 50px; height: 50px; }
-            .map-wrapper iframe { height: 220px; }
-        }
-
-        @media (min-width: 641px) {
-            .hamburger-btn { display: none; }
-            .mobile-nav-overlay, .mobile-nav-drawer { display: none; }
         }
     </style>
 </head>
 <body>
-    <!-- WhatsApp Float -->
-    <a href="https://wa.me/919622625700?text=Hi%2C%20I%20would%20like%20to%20book%20an%20appointment%20at%20KCV%20Diagnostic." target="_blank" rel="noopener noreferrer" class="whatsapp-float" aria-label="Chat on WhatsApp">
-        <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-    </a>
 
-    <!-- Mobile Nav -->
-    <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
-    <div class="mobile-nav-drawer" id="mobileNavDrawer">
-        <div class="flex items-center justify-between mb-8">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
-                    </svg>
-                </div>
-                <span class="font-display text-lg font-bold" style="color:var(--text-primary)">KCV Diagnostic</span>
+<!-- Dynamic background canvas -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- WhatsApp Float — outside .page-content so z-index works correctly -->
+<a href="https://wa.me/919622625700?text=Hi%2C%20I%20would%20like%20to%20book%20an%20appointment%20at%20KCV%20Diagnostic." target="_blank" rel="noopener noreferrer" class="wa-float" aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- Mobile nav — outside .page-content so z-index works correctly -->
+<div class="mob-overlay" id="mobOverlay"></div>
+<div class="mob-drawer" id="mobDrawer">
+    <div class="mob-header">
+        <div class="logo-wrap">
+            <div class="logo-mark"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg></div>
+            <span style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:white;">KCV</span>
+        </div>
+        <button class="mob-close" id="mobClose" aria-label="Close menu">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+    </div>
+    <nav class="mob-nav">
+        <a href="#rates" class="mob-link" data-nav-link>
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            Find Service
+        </a>
+        <a href="#services" class="mob-link" data-nav-link>
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            Why Choose Us
+        </a>
+        <a href="#contact" class="mob-link" data-nav-link>
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            Contact
+        </a>
+    </nav>
+    <a href="tel:+919622625700" class="btn-primary" style="justify-content:center;border-radius:12px;">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+        Call Now
+    </a>
+</div>
+
+<!-- Header — outside .page-content so z-index works correctly -->
+<header id="siteHeader">
+    <div class="header-inner">
+        <a href="#" class="logo-wrap">
+            <div class="logo-mark">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
             </div>
-            <button id="closeDrawerBtn" class="hamburger-btn" style="width:38px;height:38px;border-radius:10px;">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            <div class="logo-text">
+                <h1>KCV Diagnostic</h1>
+                <span>Advanced Imaging Centre</span>
+            </div>
+        </a>
+        <nav>
+            <a href="#rates">Find Service</a>
+            <a href="#services">Why Us</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <div style="display:flex;align-items:center;gap:10px;">
+            <a href="tel:+919622625700" class="btn-call">
+                <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                Call Now
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="Open menu">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
             </button>
         </div>
-        <nav class="flex flex-col gap-1 flex-1">
-            <a href="#rates" class="mobile-nav-link" data-nav-link>
-                <svg class="w-5 h-5" style="color:var(--accent)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                Find Service
-            </a>
-            <a href="#services" class="mobile-nav-link" data-nav-link>
-                <svg class="w-5 h-5" style="color:var(--accent)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
-                Services
-            </a>
-            <a href="#contact" class="mobile-nav-link" data-nav-link>
-                <svg class="w-5 h-5" style="color:var(--accent)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                Contact
-            </a>
-        </nav>
-        <a href="tel:+919622625700" class="btn-primary justify-center mt-4">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-            Call Now
-        </a>
     </div>
+</header>
 
-    <!-- Header -->
-    <header class="fixed top-0 left-0 right-0 z-50 header-glass" id="siteHeader">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16 sm:h-[72px]">
-                <a href="#" class="flex items-center gap-2.5 no-underline">
-                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center shadow-md">
-                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <h1 class="font-display text-base sm:text-lg font-bold leading-tight" style="color:var(--text-primary)">KCV Diagnostic</h1>
-                        <p class="text-[10px] sm:text-xs hidden sm:block" style="color:var(--accent)">Advanced Imaging Centre</p>
-                    </div>
-                </a>
-                <nav class="hidden md:flex items-center gap-7">
-                    <a href="#rates" class="flex items-center gap-2 text-sm font-medium no-underline transition-colors" style="color:var(--text-secondary)" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-secondary)'">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                        Find Service
-                    </a>
-                    <a href="#services" class="text-sm font-medium no-underline transition-colors" style="color:var(--text-secondary)" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-secondary)'">Services</a>
-                    <a href="#contact" class="text-sm font-medium no-underline transition-colors" style="color:var(--text-secondary)" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-secondary)'">Contact</a>
-                </nav>
-                <div class="flex items-center gap-2.5">
-                    <a href="tel:+919622625700" class="hidden sm:inline-flex items-center gap-2 btn-secondary" style="padding:10px 20px;font-size:14px;">
-                        <svg class="w-4 h-4" style="color:var(--accent)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                        Call Now
-                    </a>
-                    <button class="hamburger-btn" id="hamburgerBtn">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </header>
+<!-- ═══════════════════════════════════════════════════════
+     PAGE CONTENT — wrapped so it layers above the canvas.
+     All fixed-position elements stay OUTSIDE this wrapper.
+     ═══════════════════════════════════════════════════════ -->
+<div class="page-content">
 
     <!-- Hero -->
-    <section class="pt-24 sm:pt-28 lg:pt-32 pb-8 sm:pb-14 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-6xl mx-auto">
-            <!-- Large Hero Image -->
-            <div class="fade-up hero-image-wrap aspect-[4/3] sm:aspect-[16/9] lg:aspect-[16/8] mb-8 sm:mb-12">
-                <img src="img.png" alt="KCV Diagnostic Centre, Gandhinagar, Jammu">
-                <a href="https://www.google.com/maps/search/38+BC+Gandhinagar+Jammu" target="_blank" rel="noopener noreferrer" class="hero-image-badge">
-                    <svg class="w-5 h-5 flex-shrink-0" style="color:var(--accent)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="reveal">
+                <div class="hero-pill">
+                    <span class="hero-pill-dot"></span>
+                    Advanced Ultrasound &amp; Dopapler Services
+                </div>
+            </div>
+
+            <div class="hero-image-frame reveal" style="transition-delay:0.1s;">
+                <img src="img.png" alt="KCV Diagnostic Centre, Gandhinagar, Jammu" onerror="this.style.display='none'">
+                <a href="https://www.google.com/maps/search/38+BC+Gandhinagar+Jammu" target="_blank" rel="noopener noreferrer" class="hero-img-badge">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                     <div>
-                        <p class="text-xs font-semibold" style="color:var(--text-primary)">38 BC Gandhinagar</p>
-                        <p class="text-[11px]" style="color:var(--text-muted)">Jammu — Tap for directions</p>
+                        <p>38 BC Gandhinagar, Jammu</p>
+                        <span>Tap for directions</span>
                     </div>
-                    <svg class="w-4 h-4 flex-shrink-0 hidden sm:block" style="color:var(--text-muted)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                 </a>
             </div>
 
-            <!-- Text Content -->
-            <div class="fade-up relative" style="transition-delay: 0.1s;">
-                <div class="orb orb-1"></div>
-                <div class="orb orb-2"></div>
-
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6" style="background:var(--accent-subtle);border:1px solid var(--accent-border)">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span class="text-xs sm:text-sm font-medium" style="color:var(--accent)">Advanced Ultrasound & Doppler Services</span>
-                </div>
-
-                <h2 class="font-display text-4xl sm:text-5xl lg:text-[3.5rem] font-bold leading-[1.15] mb-5" style="color:var(--text-primary)">
-                    KCV Diagnostic<br>
-                    <span style="background:linear-gradient(135deg, var(--accent), #7c4dff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Centre</span>
-                </h2>
-
-                <p class="text-base sm:text-lg leading-relaxed mb-6 max-w-2xl" style="color:var(--text-secondary)">
-                    Your trusted partner in diagnostic imaging. Advanced ultrasound and doppler services delivered with precision, care, and compassion.
-                </p>
-
-                <!-- Doctor Info -->
-                <div class="doctor-badge mb-7">
-                    <div class="doctor-avatar">
-                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <p class="font-semibold text-sm sm:text-base leading-tight" style="color:var(--text-primary)">Dr. Shikha Malhotra Chowdhary</p>
-                        <p class="text-xs sm:text-sm" style="color:var(--text-muted)">Owner & Consulting Radiologist — Performs all ultrasounds</p>
-                    </div>
-                </div>
-
-                <div class="flex flex-wrap gap-3">
-                    <a href="#rates" class="btn-primary">
-                        View Rate List
-                        <svg class="w-4 h-4 transition-transform" style="transition:transform 0.2s" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-                    </a>
-                    <a href="https://www.google.com/maps/search/38+BC+Gandhinagar+Jammu" target="_blank" rel="noopener noreferrer" class="btn-secondary">
-                        <svg class="w-4 h-4" style="color:var(--accent)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                        Get Directions
-                    </a>
-                </div>
-            </div>
-
-            <!-- Stats -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-5 mt-10 sm:mt-14 fade-up" style="transition-delay: 0.25s;">
-                <div class="stat-card">
-                    <p class="stat-number" data-count="24">0</p>
-                    <p class="text-xs sm:text-sm mt-1" style="color:var(--text-muted)">Years Experience</p>
-                </div>
-                <div class="stat-card">
-                    <p class="stat-number" data-count="50000" data-suffix="+">0</p>
-                    <p class="text-xs sm:text-sm mt-1" style="color:var(--text-muted)">Scans Completed</p>
-                </div>
-                <div class="stat-card">
-                    <p class="stat-number" data-count="30" data-suffix="+">0</p>
-                    <p class="text-xs sm:text-sm mt-1" style="color:var(--text-muted)">Services Offered</p>
-                </div>
-                <div class="stat-card">
-                    <div class="flex items-center justify-center gap-2 mb-1">
-                        <p class="stat-number" style="font-size:2rem;">4.8</p>
-                        <div class="stars">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" style="opacity:0.4"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <div class="hero-content">
+                <div class="reveal" style="transition-delay:0.2s;">
+                    <h2 class="hero-heading">KCV<br><em>Diagnostic</em><br>Centre</h2>
+                    <p class="hero-desc">Your trusted partner in diagnostic imaging. Advanced ultrasound and Doppler services delivered with precision, care, and compassion.</p>
+                    <div class="doctor-card">
+                        <div class="doctor-avatar">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                        </div>
+                        <div>
+                            <p>Dr. Shikha Malhotra Chowdhary</p>
+                            <span>Owner &amp; Consulting Radiologist — Performs all ultrasounds</span>
                         </div>
                     </div>
-                    <p class="text-xs sm:text-sm" style="color:var(--text-muted)">Google Rating</p>
+                    <div class="hero-actions">
+                        <a href="#rates" class="btn-primary">
+                            View Rate List
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                        </a>
+                        <a href="https://www.google.com/maps/search/38+BC+Gandhinagar+Jammu" target="_blank" rel="noopener noreferrer" class="btn-outline">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                            Get Directions
+                        </a>
+                    </div>
+                </div>
+
+                <div class="reveal" style="transition-delay:0.3s;">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-num" data-count="24" data-suffix="+">0</div>
+                            <div class="stat-label">Years Experience</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-num" data-count="50000" data-suffix="+">0</div>
+                            <div class="stat-label">Scans Completed</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-num" data-count="30" data-suffix="+">0</div>
+                            <div class="stat-label">Services Offered</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="star-row">
+                                <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                <svg fill="currentColor" viewBox="0 0 20 20" style="opacity:0.3"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            </div>
+                            <div class="stat-num" style="font-size:36px;">4.8</div>
+                            <div class="stat-label">Google Rating</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Marquee Strip -->
-    <section class="py-6 sm:py-8 overflow-hidden fade-up" style="transition-delay:0.05s;">
+    <!-- Marquee -->
+    <div class="marquee-wrap">
         <div class="marquee-track">
-            <div class="marquee-item"><span class="marquee-dot"></span>Ultrasound</div>
-            <div class="marquee-item"><span class="marquee-dot"></span>Doppler</div>
-            <div class="marquee-item"><span class="marquee-dot"></span>3D / 4D Imaging</div>
-            <div class="marquee-item"><span class="marquee-dot"></span>Fetal Well Being</div>
-            <div class="marquee-item"><span class="marquee-dot"></span>Level-2 Scan</div>
-            <div class="marquee-item"><span class="marquee-dot"></span>NT Scan</div>
-            <div class="marquee-item"><span class="marquee-dot"></span>Breast Imaging</div>
-            <div class="marquee-item"><span class="marquee-dot"></span>TVS</div>
-            <div class="marquee-item"><span class="marquee-dot"></span>Follicular Study</div>
-            <div class="marquee-item"><span class="marquee-dot"></span>USG Guided Biopsy</div>
-            <!-- Duplicate for seamless loop -->
-            <div class="marquee-item"><span class="marquee-dot"></span>Ultrasound</div>
-            <div class="marquee-item"><span class="marquee-dot"></span>Doppler</div>
-            <div class="marquee-item"><span class="marquee-dot"></span>3D / 4D Imaging</div>
-            <div class="marquee-item"><span class="marquee-dot"></span>Fetal Well Being</div>
-            <div class="marquee-item"><span class="marquee-dot"></span>Level-2 Scan</div>
-            <div class="marquee-item"><span class="marquee-dot"></span>NT Scan</div>
-            <div class="marquee-item"><span class="marquee-dot"></span>Breast Imaging</div>
-            <div class="marquee-item"><span class="marquee-dot"></span>TVS</div>
-            <div class="marquee-item"><span class="marquee-dot"></span>Follicular Study</div>
-            <div class="marquee-item"><span class="marquee-dot"></span>USG Guided Biopsy</div>
+            <div class="marquee-item"><span class="marquee-diamond"></span>Ultrasound</div>
+            <div class="marquee-item"><span class="marquee-diamond"></span>Doppler</div>
+            <div class="marquee-item"><span class="marquee-diamond"></span>3D / 4D Imaging</div>
+            <div class="marquee-item"><span class="marquee-diamond"></span>Fetal Well Being</div>
+            <div class="marquee-item"><span class="marquee-diamond"></span>Level-2 Scan</div>
+            <div class="marquee-item"><span class="marquee-diamond"></span>NT Scan</div>
+            <div class="marquee-item"><span class="marquee-diamond"></span>Breast Imaging</div>
+            <div class="marquee-item"><span class="marquee-diamond"></span>TVS</div>
+            <div class="marquee-item"><span class="marquee-diamond"></span>Follicular Study</div>
+            <div class="marquee-item"><span class="marquee-diamond"></span>USG Guided Biopsy</div>
+            <div class="marquee-item"><span class="marquee-diamond"></span>Ultrasound</div>
+            <div class="marquee-item"><span class="marquee-diamond"></span>Doppler</div>
+            <div class="marquee-item"><span class="marquee-diamond"></span>3D / 4D Imaging</div>
+            <div class="marquee-item"><span class="marquee-diamond"></span>Fetal Well Being</div>
+            <div class="marquee-item"><span class="marquee-diamond"></span>Level-2 Scan</div>
+            <div class="marquee-item"><span class="marquee-diamond"></span>NT Scan</div>
+            <div class="marquee-item"><span class="marquee-diamond"></span>Breast Imaging</div>
+            <div class="marquee-item"><span class="marquee-diamond"></span>TVS</div>
+            <div class="marquee-item"><span class="marquee-diamond"></span>Follicular Study</div>
+            <div class="marquee-item"><span class="marquee-diamond"></span>USG Guided Biopsy</div>
         </div>
-    </section>
+    </div>
 
     <!-- Rate List -->
-    <section id="rates" class="py-10 sm:py-16 lg:py-24 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-8 sm:mb-12 fade-up">
-                <div class="section-divider"></div>
-                <h2 class="font-display text-2xl sm:text-4xl lg:text-[2.75rem] font-bold mb-3 sm:mb-4" style="color:var(--text-primary)">
-                    Ultrasounds & Dopplers
-                </h2>
-                <p class="font-display text-lg sm:text-xl italic" style="color:var(--accent)">Rate List</p>
-                <p class="text-sm sm:text-base mt-3 max-w-xl mx-auto" style="color:var(--text-muted)">
-                    Transparent pricing for all diagnostic services. Quality healthcare at affordable rates.
-                </p>
+    <section class="section" id="rates">
+        <div class="section-inner">
+            <div class="section-header reveal" style="text-align:center;display:flex;flex-direction:column;align-items:center;">
+                <div class="section-eyebrow" style="justify-content:center;">
+                    <div class="eyebrow-line"></div>
+                    <span class="eyebrow-text">Transparent Pricing</span>
+                    <div class="eyebrow-line"></div>
+                </div>
+                <h2 class="section-title">Ultrasounds &amp; Dopplers — <em>Rate List</em></h2>
+                <p class="section-sub" style="text-align:center;margin:0 auto;">Quality healthcare at affordable, clearly stated rates. No hidden charges.</p>
             </div>
 
-            <div class="mb-5 sm:mb-8 fade-up" style="transition-delay: 0.06s;">
-                <div class="search-wrap">
-                    <svg class="search-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                    </svg>
-                    <input type="text" id="searchInput" placeholder="Search services (e.g. Abdomen, Fetal, Breast)..." class="search-input">
+            <div class="reveal" style="transition-delay:0.08s;">
+                <div class="search-bar">
+                    <div class="search-icon-wrap">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    </div>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search services (e.g. Abdomen, Fetal, Breast)…">
                     <button id="clearSearchBtn" class="clear-btn" aria-label="Clear search">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
                 </div>
             </div>
 
-            <div class="mb-5 sm:mb-8 fade-up" style="transition-delay: 0.1s;">
-                <div class="filter-scroll" id="filterContainer">
-                    <button class="filter-btn active" data-filter="all"><span>All Services</span></button>
-                    <button class="filter-btn" data-filter="abdomen"><span>Abdomen</span></button>
-                    <button class="filter-btn" data-filter="fetal"><span>Fetal / Pregnancy</span></button>
-                    <button class="filter-btn" data-filter="breast"><span>Breast</span></button>
-                    <button class="filter-btn" data-filter="other"><span>Other</span></button>
-                </div>
+            <div class="filters reveal" style="transition-delay:0.12s;" id="filterContainer">
+                <button class="filter-btn active" data-filter="all">All Services</button>
+                <button class="filter-btn" data-filter="abdomen">Abdomen</button>
+                <button class="filter-btn" data-filter="fetal">Fetal / Pregnancy</button>
+                <button class="filter-btn" data-filter="breast">Breast</button>
+                <button class="filter-btn" data-filter="other">Other</button>
             </div>
 
-            <div class="mb-3 px-1" id="resultsCount"></div>
+            <div class="results-count" id="resultsCount"></div>
 
-            <div class="rate-card fade-up" style="transition-delay: 0.14s;">
-                <div class="hidden sm:grid grid-cols-12 gap-4 px-6 py-4" style="background:var(--bg-muted);border-bottom:1px solid var(--border-light);">
-                    <div class="col-span-1 text-xs sm:text-sm font-semibold" style="color:var(--text-muted)">#</div>
-                    <div class="col-span-8 text-xs sm:text-sm font-semibold" style="color:var(--text-muted)">Service Name</div>
-                    <div class="col-span-3 text-xs sm:text-sm font-semibold text-right" style="color:var(--text-muted)">Rate (INR)</div>
+            <div class="rate-table reveal" style="transition-delay:0.16s;">
+                <div class="rate-header">
+                    <span>#</span>
+                    <span>Service Name</span>
+                    <span style="text-align:right;">Rate (INR)</span>
                 </div>
                 <div id="rateTableBody"></div>
             </div>
 
-            <p class="text-center text-xs sm:text-sm mt-5 fade-up" style="color:var(--text-muted);transition-delay:0.18s;">
+            <p class="rate-disclaimer reveal" style="transition-delay:0.2s;">
                 Rates are subject to change. Please confirm at the time of appointment.
             </p>
         </div>
     </section>
 
-    <!-- Services -->
-    <section id="services" class="py-10 sm:py-16 lg:py-24 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-8 sm:mb-12 fade-up">
-                <div class="section-divider"></div>
-                <h2 class="font-display text-2xl sm:text-4xl font-bold mb-3" style="color:var(--text-primary)">Why Choose Us</h2>
-                <p class="text-sm sm:text-base" style="color:var(--text-muted)">State-of-the-art diagnostic services with experienced professionals</p>
+    <!-- Why Choose Us (dark) -->
+    <section class="section" id="services">
+        <div class="section-inner">
+            <div class="section-header reveal" style="text-align:center;display:flex;flex-direction:column;align-items:center;">
+                <div class="section-eyebrow" style="justify-content:center;">
+                    <div class="eyebrow-line" style="background:rgba(200,169,110,0.4);"></div>
+                    <span class="eyebrow-text">Excellence in Care</span>
+                    <div class="eyebrow-line" style="background:rgba(200,169,110,0.4);"></div>
+                </div>
+                <h2 class="section-title" style="color:white;">Why Choose <em>Us</em></h2>
+                <p class="section-sub">State-of-the-art services backed by decades of clinical expertise and genuine compassion.</p>
             </div>
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                <div class="card card-hover p-6 sm:p-7 fade-up" style="transition-delay:0.05s;">
-                    <div class="service-icon mb-4">
-                        <svg class="w-6 h-6" style="color:var(--accent)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <div class="services-grid">
+                <div class="service-card reveal" style="transition-delay:0.05s;">
+                    <div class="service-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                     </div>
-                    <h3 class="font-display text-lg sm:text-xl font-semibold mb-2" style="color:var(--text-primary)">Accurate Diagnosis</h3>
-                    <p class="text-sm leading-relaxed" style="color:var(--text-secondary)">High-precision imaging with latest ultrasound technology for reliable results you can trust.</p>
+                    <h3>Accurate Diagnosis</h3>
+                    <p>High-precision imaging with latest ultrasound technology for reliable results you can trust.</p>
                 </div>
-                <div class="card card-hover p-6 sm:p-7 fade-up" style="transition-delay:0.1s;">
-                    <div class="service-icon mb-4">
-                        <svg class="w-6 h-6" style="color:var(--accent)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <div class="service-card reveal" style="transition-delay:0.1s;">
+                    <div class="service-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     </div>
-                    <h3 class="font-display text-lg sm:text-xl font-semibold mb-2" style="color:var(--text-primary)">Quick Reports</h3>
-                    <p class="text-sm leading-relaxed" style="color:var(--text-secondary)">Same-day report delivery for most examinations, because your time matters.</p>
+                    <h3>Quick Reports</h3>
+                    <p>Same-day report delivery for most examinations, because your time matters.</p>
                 </div>
-                <div class="card card-hover p-6 sm:p-7 fade-up sm:col-span-2 lg:col-span-1" style="transition-delay:0.15s;">
-                    <div class="service-icon mb-4">
-                        <svg class="w-6 h-6" style="color:var(--accent)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                <div class="service-card reveal" style="transition-delay:0.15s;">
+                    <div class="service-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                     </div>
-                    <h3 class="font-display text-lg sm:text-xl font-semibold mb-2" style="color:var(--text-primary)">Expert Team</h3>
-                    <p class="text-sm leading-relaxed" style="color:var(--text-secondary)">Experienced radiologists dedicated to patient care, comfort, and clinical excellence.</p>
+                    <h3>Expert Team</h3>
+                    <p>Experienced radiologists dedicated to patient care, comfort, and clinical excellence.</p>
                 </div>
-                <div class="card card-hover p-6 sm:p-7 fade-up" style="transition-delay:0.2s;">
-                    <div class="service-icon mb-4">
-                        <svg class="w-6 h-6" style="color:var(--accent)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                <div class="service-card reveal" style="transition-delay:0.2s;">
+                    <div class="service-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
                     </div>
-                    <h3 class="font-display text-lg sm:text-xl font-semibold mb-2" style="color:var(--text-primary)">Patient-First Care</h3>
-                    <p class="text-sm leading-relaxed" style="color:var(--text-secondary)">Compassionate approach with comfortable environment and clear communication at every step.</p>
+                    <h3>Patient-First Care</h3>
+                    <p>Compassionate approach with comfortable environment and clear communication at every step.</p>
                 </div>
-                <div class="card card-hover p-6 sm:p-7 fade-up" style="transition-delay:0.25s;">
-                    <div class="service-icon mb-4">
-                        <svg class="w-6 h-6" style="color:var(--accent)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <div class="service-card reveal" style="transition-delay:0.25s;">
+                    <div class="service-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     </div>
-                    <h3 class="font-display text-lg sm:text-xl font-semibold mb-2" style="color:var(--text-primary)">Affordable Pricing</h3>
-                    <p class="text-sm leading-relaxed" style="color:var(--text-secondary)">Transparent rates with no hidden charges. Premium diagnostics accessible to everyone.</p>
+                    <h3>Affordable Pricing</h3>
+                    <p>Transparent rates with no hidden charges. Premium diagnostics accessible to everyone.</p>
                 </div>
-                <div class="card card-hover p-6 sm:p-7 fade-up sm:col-span-2 lg:col-span-1" style="transition-delay:0.3s;">
-                    <div class="service-icon mb-4">
-                        <svg class="w-6 h-6" style="color:var(--accent)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                <div class="service-card reveal" style="transition-delay:0.3s;">
+                    <div class="service-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                     </div>
-                    <h3 class="font-display text-lg sm:text-xl font-semibold mb-2" style="color:var(--text-primary)">Modern Equipment</h3>
-                    <p class="text-sm leading-relaxed" style="color:var(--text-secondary)">Latest generation ultrasound machines with 3D/4D imaging capabilities for superior clarity.</p>
+                    <h3>Modern Equipment</h3>
+                    <p>Latest generation ultrasound machines with 3D/4D imaging capabilities for superior clarity.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Contact -->
-    <section id="contact" class="py-10 sm:py-16 lg:py-24 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-4xl mx-auto">
-            <div class="text-center mb-8 sm:mb-12 fade-up">
-                <div class="section-divider"></div>
-                <h2 class="font-display text-2xl sm:text-3xl lg:text-4xl font-bold mb-3" style="color:var(--text-primary)">Visit Us</h2>
-                <p class="text-sm sm:text-base" style="color:var(--text-muted)">Find us on the map or reach out directly</p>
+    <section class="section" id="contact">
+        <div class="section-inner">
+            <div class="section-header reveal" style="text-align:center;display:flex;flex-direction:column;align-items:center;margin-bottom:40px;">
+                <div class="section-eyebrow" style="justify-content:center;">
+                    <div class="eyebrow-line"></div>
+                    <span class="eyebrow-text">Find Us</span>
+                    <div class="eyebrow-line"></div>
+                </div>
+                <h2 class="section-title">Book an <em>Appointment</em></h2>
+                <p class="section-sub" style="text-align:center;margin:0 auto;">Call or WhatsApp to schedule your diagnostic examination.</p>
             </div>
-
-            <!-- Map -->
-            <div class="map-wrapper mb-8 fade-up" style="transition-delay:0.05s;">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3305.7!2d74.82!3d32.69!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzLCsDQxJzI0LjAiTiA3NMKwNDknMTIuMCJF!5e0!3m2!1sen!2sin!4v1&q=38+BC+Gandhinagar+Jammu" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="KCV Diagnostic Centre Location"></iframe>
-            </div>
-
-            <div class="card p-7 sm:p-10 lg:p-14 text-center fade-up" style="transition-delay: 0.1s;">
-                <h3 class="font-display text-xl sm:text-2xl lg:text-3xl font-bold mb-3" style="color:var(--text-primary)">Book Your Appointment</h3>
-                <p class="text-sm sm:text-base mb-7 sm:mb-9 max-w-lg mx-auto" style="color:var(--text-secondary)">Call us or send a WhatsApp message to schedule your diagnostic examination.</p>
-
-                <div class="flex flex-wrap gap-3 sm:gap-4 justify-center mb-8">
-                    <a href="tel:+919622625700" class="btn-primary justify-center">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                        Call Now
-                    </a>
-                    <a href="https://wa.me/919622625700?text=Hi%2C%20I%20would%20like%20to%20book%20an%20appointment%20at%20KCV%20Diagnostic." target="_blank" rel="noopener noreferrer" class="btn-secondary justify-center" style="border-color:rgba(37,211,102,0.3);">
-                        <svg class="w-5 h-5" style="color:#25D366" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                        WhatsApp
-                    </a>
-                    <a href="https://www.google.com/maps/search/38+BC+Gandhinagar+Jammu" target="_blank" rel="noopener noreferrer" class="btn-secondary justify-center">
-                        <svg class="w-5 h-5" style="color:var(--accent)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                        Get Directions
+            <div class="contact-grid">
+                <div class="reveal" style="transition-delay:0.05s;">
+                    <div class="map-frame" style="margin-bottom:16px;">
+                        <iframe src="https://maps.google.com/maps?q=38+BC+Gandhinagar+Jammu&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="KCV Diagnostic Centre Location"></iframe>
+                    </div>
+                    <a href="https://www.google.com/maps/search/38+BC+Gandhinagar+Jammu" target="_blank" rel="noopener noreferrer" class="btn-outline" style="width:100%;justify-content:center;">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        Open in Google Maps
                     </a>
                 </div>
-
-                <div class="grid sm:grid-cols-3 gap-4 text-left">
-                    <div class="contact-info-box">
-                        <div class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0" style="background:var(--accent-subtle)">
-                            <svg class="w-5 h-5" style="color:var(--accent)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <div class="reveal" style="transition-delay:0.1s;">
+                    <div class="contact-card">
+                        <h3>Let's get you<br><em>scheduled</em></h3>
+                        <p>Reach out via call or WhatsApp — we're available Monday to Saturday, 10 AM to 7 PM.</p>
+                        <div class="contact-btns">
+                            <a href="tel:+919622625700" class="btn-primary">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                                Call Now
+                            </a>
+                            <a href="https://wa.me/919622625700?text=Hi%2C%20I%20would%20like%20to%20book%20an%20appointment%20at%20KCV%20Diagnostic." target="_blank" rel="noopener noreferrer" class="btn-whatsapp">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                                WhatsApp
+                            </a>
                         </div>
-                        <div>
-                            <h4 class="font-semibold text-sm sm:text-base mb-0.5" style="color:var(--text-primary)">Address</h4>
-                            <a href="https://www.google.com/maps/search/38+BC+Gandhinagar+Jammu" target="_blank" rel="noopener noreferrer" class="text-xs sm:text-sm no-underline" style="color:var(--accent)">38 BC Gandhinagar, Jammu →</a>
-                        </div>
-                    </div>
-                    <div class="contact-info-box">
-                        <div class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0" style="background:var(--accent-subtle)">
-                            <svg class="w-5 h-5" style="color:var(--accent)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-sm sm:text-base mb-0.5" style="color:var(--text-primary)">Timings</h4>
-                            <p class="text-xs sm:text-sm" style="color:var(--text-secondary)">Mon – Sat<br>10:00 AM – 7:00 PM</p>
-                        </div>
-                    </div>
-                    <div class="contact-info-box sm:col-span-1">
-                        <div class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0" style="background:var(--green-light)">
-                            <svg class="w-5 h-5" style="color:var(--green)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-sm sm:text-base mb-0.5" style="color:var(--text-primary)">Phone</h4>
-                            <a href="tel:+919622625700" class="text-xs sm:text-sm no-underline font-medium" style="color:var(--green)">+91 96226 25700</a>
+                        <div class="info-rows">
+                            <div class="info-row">
+                                <div class="info-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                </div>
+                                <div>
+                                    <div class="info-label">Address</div>
+                                    <a href="https://www.google.com/maps/search/38+BC+Gandhinagar+Jammu" target="_blank" rel="noopener noreferrer" class="info-value">38 BC Gandhinagar, Jammu →</a>
+                                </div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                </div>
+                                <div>
+                                    <div class="info-label">Hours</div>
+                                    <span class="info-value" style="color:var(--text);">Mon – Sat &nbsp;·&nbsp; 10:00 AM – 7:00 PM</span>
+                                </div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-icon" style="background:rgba(29,122,116,0.1);border-color:rgba(29,122,116,0.18);">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:var(--teal);"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                                </div>
+                                <div>
+                                    <div class="info-label">Phone</div>
+                                    <a href="tel:+919622625700" class="info-value" style="color:var(--teal);">+91 96226 25700</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1062,214 +1341,334 @@
     </section>
 
     <!-- Footer -->
-    <footer class="py-8 px-4 sm:px-6 lg:px-8" style="border-top:1px solid var(--border-light)">
-        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div class="flex items-center gap-2">
-                <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center">
-                    <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
-                    </svg>
-                </div>
-                <p class="text-xs sm:text-sm" style="color:var(--text-muted)">Quality Diagnostics, Trusted Care</p>
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span></span>
+                KCV Diagnostic Centre
             </div>
-            <p class="text-xs sm:text-sm" style="color:var(--text-muted)">&copy; 2025 KCV Diagnostic Centre, Jammu. All rights reserved.</p>
+            <p>&copy; 2025 KCV Diagnostic Centre, Jammu. All rights reserved.</p>
         </div>
     </footer>
 
-    <script>
-        var rateData = [
-            { id: 1, name: "Whole Abdomen { HBS / KUB }", rate: 2000, category: "abdomen" },
-            { id: 2, name: "Upper Abdomen { HBS }", rate: 1500, category: "abdomen" },
-            { id: 3, name: "Lower Abdomen KUB / Pelvic", rate: 1500, category: "abdomen" },
-            { id: 4, name: "Women { KUB }", rate: 1500, category: "abdomen" },
-            { id: 5, name: "Upper Abdomen Doppler", rate: 3000, category: "abdomen" },
-            { id: 6, name: "Fetal Well Being", rate: "2000", category: "fetal" },
-            { id: 7, name: "Fetal Echo / Fetal Neuro", rate: "5000 / 5000", category: "fetal" },
-            { id: 8, name: "Fetal Doppler / Cervical Assessment", rate: "3000 / 1000", category: "fetal" },
-            { id: 9, name: "Fetal USG 3D Early Pregnancy", rate: 3000, category: "fetal" },
-            { id: 10, name: "Level - 2 / Level - 2 With Pre Screening", rate: "3000 / 4000", category: "fetal" },
-            { id: 11, name: "Level - 2 + 3D / 4D", rate: 5000, category: "fetal" },
-            { id: 12, name: "1st Trimester Screening", rate: 4000, category: "fetal" },
-            { id: 13, name: "2nd Trimester USG 3D", rate: 4000, category: "fetal" },
-            { id: 14, name: "TVS / TVS - 3D", rate: "2500 / 4000", category: "fetal" },
-            { id: 15, name: "Antral { TVS }", rate: 3000, category: "fetal" },
-            { id: 16, name: "Follicular Study { TVS }", rate: 3500, category: "fetal" },
-            { id: 17, name: "NT Scan", rate: 3000, category: "fetal" },
-            { id: 18, name: "Baby Head Ultrasound", rate: 2500, category: "other" },
-            { id: 19, name: "Both Breasts", rate: 3000, category: "breast" },
-            { id: 20, name: "Single Breast", rate: 1500, category: "breast" },
-            { id: 21, name: "USG Guided Breast FNAC", rate: 3000, category: "breast" },
-            { id: 22, name: "USG Guided Biopsy", rate: 8000, category: "breast" },
-            { id: 23, name: "Biophysical Profile", rate: 3000, category: "fetal" },
-            { id: 24, name: "Chest", rate: 1500, category: "other" },
-            { id: 25, name: "Eye", rate: 2500, category: "other" },
-            { id: 26, name: "Scrotum", rate: 2500, category: "other" },
-            { id: 27, name: "Local Part { Thigh }", rate: 2500, category: "other" },
-            { id: 28, name: "Neck / Thyroid", rate: 2500, category: "other" },
-            { id: 29, name: "Fracture Evaluation", rate: 2500, category: "other" },
-            { id: 30, name: "Pura Vida { 1 Session / 3 Session }", rate: "2000 / 5000", category: "other" },
-            { id: 31, name: "For Vinal Hernia", rate: 2000, category: "other" },
-            { id: 32, name: "Upper abdomen / TVS", rate: "4000", category: "abdomen" }
-        ];
+</div><!-- /.page-content -->
 
-        var currentFilter = 'all';
-        var searchQuery = '';
-        var rateTableBody = document.getElementById('rateTableBody');
-        var searchInput = document.getElementById('searchInput');
-        var filterContainer = document.getElementById('filterContainer');
-        var clearSearchBtn = document.getElementById('clearSearchBtn');
-        var resultsCount = document.getElementById('resultsCount');
+<script>
+/* ── BACKGROUND CANVAS ANIMATION ── */
+(function () {
+    var canvas = document.getElementById('bg-canvas');
+    var ctx = canvas.getContext('2d');
+    var W, H, lines, orbs, mouseX = -999, mouseY = -999;
 
-        function renderRateTable() {
-            var filtered = rateData.filter(function(item) {
-                var mf = currentFilter === 'all' || item.category === currentFilter;
-                var ms = item.name.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1;
-                return mf && ms;
-            });
+    function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+    }
 
-            if (searchQuery || currentFilter !== 'all') {
-                resultsCount.innerHTML = '<p class="text-xs sm:text-sm" style="color:var(--text-muted)">' + filtered.length + ' service' + (filtered.length !== 1 ? 's' : '') + ' found</p>';
-            } else {
-                resultsCount.innerHTML = '';
-            }
-
-            rateTableBody.innerHTML = '';
-
-            if (filtered.length === 0) {
-                rateTableBody.innerHTML = '<div class="no-results"><svg class="w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-4" style="color:var(--text-muted);opacity:0.4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><p class="text-base sm:text-lg font-medium" style="color:var(--text-secondary)">No services found</p><p class="text-xs sm:text-sm mt-1.5" style="color:var(--text-muted)">Try adjusting your search or filter</p></div>';
-                return;
-            }
-
-            filtered.forEach(function(item, index) {
-                var row = document.createElement('div');
-                row.className = 'rate-row stagger-item grid grid-cols-1 sm:grid-cols-12 gap-1 sm:gap-4 px-4 sm:px-6 py-3.5 sm:py-4 items-center';
-                row.style.animationDelay = Math.min(index * 0.025, 0.5) + 's';
-                row.innerHTML =
-                    '<div class="sm:col-span-1 font-medium text-xs sm:text-sm" style="color:var(--accent)">' + String(item.id).padStart(2, '0') + '</div>' +
-                    '<div class="sm:col-span-8">' +
-                        '<p class="font-medium text-sm sm:text-base leading-snug" style="color:var(--text-primary)">' + item.name + '</p>' +
-                        '<p class="text-[11px] capitalize sm:hidden mt-0.5" style="color:var(--text-muted)">' + item.category.replace('-', ' / ') + '</p>' +
-                    '</div>' +
-                    '<div class="sm:col-span-3 flex justify-start sm:justify-end mt-1.5 sm:mt-0">' +
-                        '<span class="price-tag">Rs. ' + item.rate + '</span>' +
-                    '</div>';
-                rateTableBody.appendChild(row);
-                requestAnimationFrame(function() { row.classList.add('visible'); });
+    function makeLines() {
+        lines = [];
+        var count = Math.floor(W / 120) + 4;
+        for (var i = 0; i < count; i++) {
+            lines.push({
+                x: (W / (count - 1)) * i,
+                phase: Math.random() * Math.PI * 2,
+                speed: 0.003 + Math.random() * 0.004,
+                amp: 20 + Math.random() * 40,
+                color: Math.random() > 0.5 ? 'gold' : 'teal'
             });
         }
+    }
 
-        filterContainer.addEventListener('click', function(e) {
-            var btn = e.target.closest('.filter-btn');
-            if (!btn) return;
-            document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
-            btn.classList.add('active');
-            currentFilter = btn.dataset.filter;
-            renderRateTable();
-        });
-
-        searchInput.addEventListener('input', function(e) {
-            searchQuery = e.target.value;
-            clearSearchBtn.classList.toggle('visible', searchQuery.length > 0);
-            renderRateTable();
-        });
-
-        clearSearchBtn.addEventListener('click', function() {
-            searchInput.value = '';
-            searchQuery = '';
-            clearSearchBtn.classList.remove('visible');
-            searchInput.focus();
-            renderRateTable();
-        });
-
-        /* Scroll reveal */
-        var obs = new IntersectionObserver(function(entries) {
-            entries.forEach(function(e) {
-                if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    function makeOrbs() {
+        orbs = [];
+        for (var i = 0; i < 4; i++) {
+            orbs.push({
+                x: Math.random() * W,
+                y: Math.random() * H,
+                r: 180 + Math.random() * 220,
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: (Math.random() - 0.5) * 0.4,
+                color: i % 2 === 0 ? 'gold' : 'teal',
+                alpha: 0.04 + Math.random() * 0.04
             });
-        }, { threshold: 0.08 });
-        document.querySelectorAll('.fade-up').forEach(function(el) { obs.observe(el); });
+        }
+    }
 
-        /* Header scroll shadow */
-        var siteHeader = document.getElementById('siteHeader');
-        window.addEventListener('scroll', function() {
-            siteHeader.classList.toggle('scrolled', window.scrollY > 20);
-        }, { passive: true });
+    resize();
+    makeLines();
+    makeOrbs();
 
-        /* Counter animation */
-        var countersAnimated = false;
-        var counterObs = new IntersectionObserver(function(entries) {
-            entries.forEach(function(e) {
-                if (e.isIntersecting && !countersAnimated) {
-                    countersAnimated = true;
-                    animateCounters();
-                    counterObs.unobserve(e.target);
-                }
-            });
-        }, { threshold: 0.3 });
-        var statSection = document.querySelector('.stat-card');
-        if (statSection) counterObs.observe(statSection.parentElement);
+    window.addEventListener('resize', function () {
+        resize();
+        makeLines();
+        makeOrbs();
+    });
+    document.addEventListener('mousemove', function (e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
 
-        function animateCounters() {
-            document.querySelectorAll('.stat-number[data-count]').forEach(function(el) {
+    var t = 0;
+    function draw() {
+        ctx.clearRect(0, 0, W, H);
+
+        /* Draw orbs */
+        for (var o = 0; o < orbs.length; o++) {
+            var orb = orbs[o];
+            orb.x += orb.vx;
+            orb.y += orb.vy;
+            if (orb.x < -orb.r) orb.x = W + orb.r;
+            if (orb.x > W + orb.r) orb.x = -orb.r;
+            if (orb.y < -orb.r) orb.y = H + orb.r;
+            if (orb.y > H + orb.r) orb.y = -orb.r;
+
+            var safeR = Math.max(1, orb.r);
+            var grad = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, safeR);
+            var inner = orb.color === 'gold'
+                ? 'rgba(200,169,110,' + orb.alpha + ')'
+                : 'rgba(29,122,116,' + orb.alpha + ')';
+            grad.addColorStop(0, inner);
+            grad.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.arc(orb.x, orb.y, safeR, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        /* Draw flowing lines */
+        for (var l = 0; l < lines.length; l++) {
+            var line = lines[l];
+            ctx.beginPath();
+            var started = false;
+            for (var y2 = 0; y2 <= H + 20; y2 += 4) {
+                var wave = Math.sin(y2 * 0.008 + line.phase + t * line.speed * 200) * line.amp;
+                var mx = (mouseX > 0) ? (mouseX - line.x) * 0.04 : 0;
+                var x2 = line.x + wave + mx;
+                if (!started) { ctx.moveTo(x2, y2); started = true; }
+                else ctx.lineTo(x2, y2);
+            }
+            ctx.strokeStyle = line.color === 'gold'
+                ? 'rgba(200,169,110,0.06)'
+                : 'rgba(29,122,116,0.04)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+        }
+
+        t += 0.016;
+        requestAnimationFrame(draw);
+    }
+    draw();
+})();
+
+/* ── RATE DATA ── */
+var rateData = [
+    { id: 1,  name: "Whole Abdomen { HBS / KUB }",               rate: "2000",         category: "abdomen" },
+    { id: 2,  name: "Upper Abdomen { HBS }",                      rate: "1500",         category: "abdomen" },
+    { id: 3,  name: "Lower Abdomen KUB / Pelvic",                 rate: "1500",         category: "abdomen" },
+    { id: 4,  name: "Women { KUB }",                              rate: "1500",         category: "abdomen" },
+    { id: 5,  name: "Upper Abdomen Doppler",                      rate: "3000",         category: "abdomen" },
+    { id: 6,  name: "Fetal Well Being",                           rate: "2000",         category: "fetal" },
+    { id: 7,  name: "Fetal Echo / Fetal Neuro",                   rate: "5000 / 5000",  category: "fetal" },
+    { id: 8,  name: "Fetal Doppler / Cervical Assessment",        rate: "3000 / 1000",  category: "fetal" },
+    { id: 9,  name: "Fetal USG 3D Early Pregnancy",               rate: "3000",         category: "fetal" },
+    { id: 10, name: "Level - 2 / Level - 2 With Pre Screening",   rate: "3000 / 4000",  category: "fetal" },
+    { id: 11, name: "Level - 2 + 3D / 4D",                       rate: "5000",         category: "fetal" },
+    { id: 12, name: "1st Trimester Screening",                    rate: "4000",         category: "fetal" },
+    { id: 13, name: "2nd Trimester USG 3D",                       rate: "4000",         category: "fetal" },
+    { id: 14, name: "TVS / TVS - 3D",                             rate: "2500 / 4000",  category: "fetal" },
+    { id: 15, name: "Antral { TVS }",                             rate: "3000",         category: "fetal" },
+    { id: 16, name: "Follicular Study { TVS }",                   rate: "3500",         category: "fetal" },
+    { id: 17, name: "NT Scan",                                    rate: "3000",         category: "fetal" },
+    { id: 18, name: "Baby Head Ultrasound",                       rate: "2500",         category: "other" },
+    { id: 19, name: "Both Breasts",                               rate: "3000",         category: "breast" },
+    { id: 20, name: "Single Breast",                              rate: "1500",         category: "breast" },
+    { id: 21, name: "USG Guided Breast FNAC",                     rate: "3000",         category: "breast" },
+    { id: 22, name: "USG Guided Biopsy",                          rate: "8000",         category: "breast" },
+    { id: 23, name: "Biophysical Profile",                        rate: "3000",         category: "fetal" },
+    { id: 24, name: "Chest",                                      rate: "1500",         category: "other" },
+    { id: 25, name: "Eye",                                        rate: "2500",         category: "other" },
+    { id: 26, name: "Scrotum",                                    rate: "2500",         category: "other" },
+    { id: 27, name: "Local Part { Thigh }",                       rate: "2500",         category: "other" },
+    { id: 28, name: "Neck / Thyroid",                             rate: "2500",         category: "other" },
+    { id: 29, name: "Fracture Evaluation",                        rate: "2500",         category: "other" },
+    { id: 30, name: "Pura Vida { 1 Session / 3 Session }",       rate: "2000 / 5000",  category: "other" },
+    { id: 31, name: "For Vinal Hernia",                           rate: "2000",         category: "other" },
+    { id: 32, name: "Upper Abdomen / TVS",                        rate: "4000",         category: "abdomen" }
+];
+
+var currentFilter = 'all';
+var searchQuery = '';
+var tbody = document.getElementById('rateTableBody');
+var searchInput = document.getElementById('searchInput');
+var clearBtn = document.getElementById('clearSearchBtn');
+var resultsEl = document.getElementById('resultsCount');
+
+function renderTable() {
+    var filtered = rateData.filter(function (item) {
+        return (currentFilter === 'all' || item.category === currentFilter) &&
+               item.name.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1;
+    });
+
+    resultsEl.textContent = (searchQuery || currentFilter !== 'all')
+        ? filtered.length + ' service' + (filtered.length !== 1 ? 's' : '') + ' found'
+        : '';
+
+    if (!filtered.length) {
+        tbody.innerHTML =
+            '<div class="no-results">' +
+                '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>' +
+                '<p>No services found</p>' +
+                '<small>Try adjusting your search or filter</small>' +
+            '</div>';
+        return;
+    }
+
+    tbody.innerHTML = '';
+    for (var i = 0; i < filtered.length; i++) {
+        var item = filtered[i];
+        var row = document.createElement('div');
+        row.className = 'rate-row';
+        row.innerHTML =
+            '<span class="rate-num">' + String(item.id).padStart(2, '0') + '</span>' +
+            '<span class="rate-name">' + item.name + '</span>' +
+            '<span class="rate-price">Rs. ' + item.rate + '</span>';
+        tbody.appendChild(row);
+    }
+}
+
+/* Filter buttons */
+document.getElementById('filterContainer').addEventListener('click', function (e) {
+    var btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+    var allBtns = document.querySelectorAll('.filter-btn');
+    for (var i = 0; i < allBtns.length; i++) allBtns[i].classList.remove('active');
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderTable();
+});
+
+/* Search input */
+searchInput.addEventListener('input', function () {
+    searchQuery = this.value;
+    clearBtn.classList.toggle('visible', searchQuery.length > 0);
+    renderTable();
+});
+
+/* Clear search */
+clearBtn.addEventListener('click', function () {
+    searchInput.value = '';
+    searchQuery = '';
+    clearBtn.classList.remove('visible');
+    searchInput.focus();
+    renderTable();
+});
+
+renderTable();
+
+/* ── SCROLL REVEAL ── */
+var revealObs = new IntersectionObserver(function (entries) {
+    for (var i = 0; i < entries.length; i++) {
+        if (entries[i].isIntersecting) {
+            entries[i].target.classList.add('visible');
+            revealObs.unobserve(entries[i].target);
+        }
+    }
+}, { threshold: 0.07 });
+
+var revealEls = document.querySelectorAll('.reveal');
+for (var r = 0; r < revealEls.length; r++) revealObs.observe(revealEls[r]);
+
+/* ── HEADER SCROLL STATE ── */
+window.addEventListener('scroll', function () {
+    document.getElementById('siteHeader').classList.toggle('scrolled', window.scrollY > 30);
+}, { passive: true });
+
+/* ── COUNTER ANIMATION ── */
+var counted = false;
+var counterObs = new IntersectionObserver(function (entries) {
+    if (entries[0].isIntersecting && !counted) {
+        counted = true;
+        var statNums = document.querySelectorAll('.stat-num[data-count]');
+        for (var i = 0; i < statNums.length; i++) {
+            (function (el) {
                 var target = parseInt(el.dataset.count);
                 var suffix = el.dataset.suffix || '';
-                var duration = 1800;
+                var dur = 1800;
                 var start = performance.now();
+
                 function step(now) {
-                    var progress = Math.min((now - start) / duration, 1);
-                    var eased = 1 - Math.pow(1 - progress, 3);
-                    var current = Math.round(eased * target);
+                    var p = Math.min((now - start) / dur, 1);
+                    var eased = 1 - Math.pow(1 - p, 3);
+                    var cur = Math.round(eased * target);
+
                     if (target >= 10000) {
-                        el.textContent = (current / 1000).toFixed(current < target ? 1 : 0) + 'K' + suffix;
+                        el.textContent = (cur / 1000).toFixed(p < 1 ? 1 : 0) + 'K' + suffix;
                     } else {
-                        el.textContent = current + (progress >= 1 ? '+' : '');
+                        el.textContent = cur + (p >= 1 ? suffix : '');
                     }
-                    if (progress < 1) requestAnimationFrame(step);
+
+                    if (p < 1) requestAnimationFrame(step);
                 }
                 requestAnimationFrame(step);
+            })(statNums[i]);
+        }
+    }
+}, { threshold: 0.3 });
+
+var statWrap = document.querySelector('.stats-grid');
+if (statWrap) counterObs.observe(statWrap);
+
+/* ── MOBILE NAV ── */
+var hamburger = document.getElementById('hamburger');
+var mobClose = document.getElementById('mobClose');
+var mobOverlay = document.getElementById('mobOverlay');
+var mobDrawer = document.getElementById('mobDrawer');
+
+function openNav() {
+    mobOverlay.classList.add('open');
+    mobDrawer.classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeNav() {
+    mobOverlay.classList.remove('open');
+    mobDrawer.classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+hamburger.addEventListener('click', openNav);
+mobClose.addEventListener('click', closeNav);
+mobOverlay.addEventListener('click', closeNav);
+
+var mobLinks = document.querySelectorAll('[data-nav-link]');
+for (var m = 0; m < mobLinks.length; m++) {
+    mobLinks[m].addEventListener('click', closeNav);
+}
+
+/* ── SMOOTH SCROLL ── */
+/* Detect touch device to avoid triggering the mobile keyboard */
+var isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+
+var anchorLinks = document.querySelectorAll('a[href^="#"]');
+for (var a = 0; a < anchorLinks.length; a++) {
+    anchorLinks[a].addEventListener('click', function (e) {
+        var href = this.getAttribute('href');
+        if (href === '#') return;
+        e.preventDefault();
+        var target = document.querySelector(href);
+        if (target) {
+            var headerH = document.querySelector('header').offsetHeight;
+            window.scrollTo({
+                top: target.getBoundingClientRect().top + window.scrollY - headerH - 16,
+                behavior: 'smooth'
             });
+            /* Only auto-focus search on desktop — prevents mobile keyboard popup */
+            if (href === '#rates' && !isTouchDevice) {
+                setTimeout(function () { searchInput.focus(); }, 700);
+            }
         }
-
-        /* Mobile drawer */
-        var hamburgerBtn = document.getElementById('hamburgerBtn');
-        var closeDrawerBtn = document.getElementById('closeDrawerBtn');
-        var mobileNavOverlay = document.getElementById('mobileNavOverlay');
-        var mobileNavDrawer = document.getElementById('mobileNavDrawer');
-
-        function openDrawer() {
-            mobileNavOverlay.classList.add('open');
-            mobileNavDrawer.classList.add('open');
-            document.body.style.overflow = 'hidden';
-        }
-        function closeDrawer() {
-            mobileNavOverlay.classList.remove('open');
-            mobileNavDrawer.classList.remove('open');
-            document.body.style.overflow = '';
-        }
-
-        hamburgerBtn.addEventListener('click', openDrawer);
-        closeDrawerBtn.addEventListener('click', closeDrawer);
-        mobileNavOverlay.addEventListener('click', closeDrawer);
-        document.querySelectorAll('[data-nav-link]').forEach(function(l) { l.addEventListener('click', closeDrawer); });
-
-        /* Smooth scroll */
-        document.querySelectorAll('a[href^="#"]').forEach(function(a) {
-            a.addEventListener('click', function(e) {
-                var href = this.getAttribute('href');
-                if (href === '#') return;
-                e.preventDefault();
-                var t = document.querySelector(href);
-                if (t) {
-                    var h = document.querySelector('header').offsetHeight;
-                    window.scrollTo({ top: t.getBoundingClientRect().top + window.scrollY - h - 16, behavior: 'smooth' });
-                    if (href === '#rates') {
-                        setTimeout(function() { searchInput.focus(); }, 700);
-                    }
-                }
-            });
-        });
-
-        renderRateTable();
-    </script>
+    });
+}
+</script>
 </body>
 </html>
